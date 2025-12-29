@@ -480,7 +480,8 @@ void controlller() {
     integral_roll = 0;
   }
   integral_roll = constrain(integral_roll, -i_limit, i_limit); //Saturation to prevent windup
-  derivative_roll = gyroscope.axis.x; //directly applied with velocity to prevent derivative kick
+  derivative_roll = gyroscope.axis.x; //directly applied with velocity to prevent derivative kick. Assumption is body angular velocities are equal to euler rates at small angle. Ref quan quan Eq 5.5 and Eq 11.6 and  Eq 11.9.
+  // this is only valid till roll and pitch angles less than 20deg. Gyroscopes give angular velocities in body frame and not euler rates.
   roll_PID = 0.01*(Kp_roll_angle*error_roll + Ki_roll_angle*integral_roll - Kd_roll_angle*derivative_roll); //Scaled by .01 to bring within -1 to 1 range
 
   //Pitch
